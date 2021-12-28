@@ -2,8 +2,7 @@ using ChainRulesCore
 using Random
 import ChainRulesCore: frule, rrule
 using LinearAlgebra
-const RealOrComplex = Union{Real,Complex}
-
+const RealOrComplex = Union{Real, Complex}
 
 # Addition
 function frule(
@@ -17,7 +16,6 @@ function frule(
     return (Ω, ∂Ω)
 end
 
-
 # Multiplication
 function frule(
     (_, ΔA, ΔB),
@@ -30,7 +28,11 @@ function frule(
     return (Ω, ∂Ω)
 end
 
-function rrule(::typeof(*), A::Matrix{<:RealOrComplex}, B::Matrix{<:RealOrComplex})
+function rrule(
+    ::typeof(*),
+    A::Matrix{<:RealOrComplex},
+    B::Matrix{<:RealOrComplex},
+)
     function times_pullback(ΔΩ)
         ∂A = @thunk(ΔΩ * B')
         ∂B = @thunk(A' * ΔΩ)
@@ -62,7 +64,7 @@ N = 3
 Ȧ = zeros(N, N) + I
 Ḃ = zeros(N, N) + I
 A = randn(N, N)
-B = randn(N, N) 
-b, ḃ = frule((nofields, Ȧ, Ḃ), *, A, B); 
+B = randn(N, N)
+b, ḃ = frule((nofields, Ȧ, Ḃ), *, A, B);
 b - A * B
 ḃ - (Ȧ * B + Ḃ * A)

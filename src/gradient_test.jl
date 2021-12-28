@@ -5,10 +5,13 @@ function two2three(x1::Float64, x2::Float64)
     return 1.0, 2.0 * x1, 3.0 * x2
 end
 
-
 function ChainRulesCore.frule((Δf, Δx1, Δx2), ::typeof(two2three), x1, x2)
     y = two2three(x1, x2)
-    ∂y = Tangent{Tuple{Float64,Float64,Float64}}(ZeroTangent(), 2.0 * Δx1, 3.0 * Δx2)
+    ∂y = Tangent{Tuple{Float64, Float64, Float64}}(
+        ZeroTangent(),
+        2.0 * Δx1,
+        3.0 * Δx2,
+    )
     return y, ∂y
 end
 
