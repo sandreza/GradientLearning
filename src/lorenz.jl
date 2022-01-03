@@ -99,7 +99,7 @@ tmp = Zygote.jacobian(lorenz, [1.0, 2.0, 3.0])
 
 function lorenz!(ṡ, s; σ = 10, ρ = 28, β = 8 / 3)
     x, y, z = s
-    ṡ[1] = σ * (x - y)
+    ṡ[1] = -σ * (x - y)
     ṡ[2] = -y + (ρ - z) * x
     ṡ[3] = -β * z + x * y
     return nothing
